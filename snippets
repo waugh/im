@@ -1,0 +1,14 @@
+http://www.asyncdev.net/2012/08/locking-node-js-module-versions-with-shrinkwrap/
+
+npm install --save coffee-script
+
+npm shrinkwrap
+
+
+nvm use
+node_modules/.bin/coffee
+
+Object.keys(misc = require './misc')
+load = misc.load
+Object.keys(misc = load './misc')
+
