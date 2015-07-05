@@ -1,18 +1,36 @@
+# Introduction of modules to the project.
+
 http://www.asyncdev.net/2012/08/locking-node-js-module-versions-with-shrinkwrap/
 
+nvm use
 npm install --save coffee-script
-
 npm shrinkwrap
 
+# Occasional study.
+
+nvm use
+node_modules/.bin/coffee --compile source.coffee
+
+# Routine testing.
 
 nvm use
 node_modules/.bin/coffee
 
-(require './support').infect global
+Object.keys support = require './support'
+load = support.load
 
-Object.keys (support = load('./support'))
-support.infect global
-Object.keys (interpreter = load('./interpreter'))
+Object.keys support = load './support'
+load = support.load
+
+Object.keys global_variable = load './global_variable'
+assert.strictEqual imperatrix_mundi, global_variable.the, 'imperatrix_mundi'
+
+Object.keys compiler = load './compiler'
+compiler.infect imperatrix_mundi # trashes symbol table.
+symbol = imperatrix_mundi.symbol
+
+Object.keys interpreter = load './interpreter'
 interpreter.infect global
 (trampoline = imperatrix_mundi.trampoline).constructor
+
 

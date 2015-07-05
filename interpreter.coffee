@@ -83,10 +83,9 @@ exercise_cons = ->
   assert.strictEqual 3, cdr_r.value(), 'cdr value'
 
 # have to implement enough stuff to execute the above examples.
-  
 
-add_new_to_class = (a_class) ->
-  a_class.new = (args...) -> new a_class args...
+
+
 
 my_exports =
   imperatrix_mundi: imperatrix_mundi
@@ -99,6 +98,4 @@ infect = (tgt) ->
 
 exports.infect     = infect
 exports.my_exports = my_exports
-
-console.log 'interpreter.coffee'
 
