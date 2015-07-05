@@ -1,23 +1,26 @@
-imperatrix_mundi? or imperatrix_mundi = {}
+imperatrix_mundi = (require './global_variable').the
 
 class Trampoline
   # An instance can remember (in volatile memory) steps that are ready to be
   # performed in order to advance the interpretation.
   constructor: ->
-    @_v =
+    @_ = # private variables.
       ready_tasks: []
   is_idle: ->
-    @_v.ready_tasks.length is 0
-  step: -> # Carry out a step if any are ready.
-    len = @_v.ready_tasks.length
+    @_.ready_tasks.length is 0
+  step: -> # Carry out a step if any are ready; otherwise do no harm.
+    len = @_.ready_tasks.length
     if len > 0
-      @_v.ready_tasks.shift()(this)
+      @_.ready_tasks.shift()(this)
     len
   defer: (a_task) -> # Remember something to do.
-    @_v.ready_tasks.push a_task
-    @_v.ready_tasks.length
+    @_.ready_tasks.push a_task
+    @_.ready_tasks.length
+  exhaust: ->
+    @step until @is_idle
+    true
 
-imperatrix_mundi.trampoline = new Trampoline()
+imperatrix_mundi.trampoline? or imperatrix_mundi.trampoline = new Trampoline()
 trampoline = imperatrix_mundi.trampoline
 
 ###
@@ -87,15 +90,4 @@ exercise_cons = ->
 
 
 
-my_exports =
-  imperatrix_mundi: imperatrix_mundi
-
-infect = (tgt) ->
-  keys = Object.keys my_exports
-  for k in keys
-    tgt[k] = my_exports[k]
-  keys
-
-exports.infect     = infect
-exports.my_exports = my_exports
 
