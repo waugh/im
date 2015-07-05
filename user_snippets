@@ -14,7 +14,7 @@ ls nvm
 ls -dl $HOME/.nvm
 git clone https://github.com/creationix/nvm.git
 ln -s ../../n/$user/projects/personal/nvm $HOME/.nvm
-# The avove relative symbolic link assumes /home is /mnt/big/home and that
+# The above relative symbolic link assumes /home is /mnt/big/home and that
 # $n resolves to /mnt/big/n/jack .  Modify as needed for your environment.
 cd nvm
 git checkout `git describe --abbrev=0 --tags`

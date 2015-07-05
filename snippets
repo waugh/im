@@ -8,7 +8,11 @@ npm shrinkwrap
 nvm use
 node_modules/.bin/coffee
 
-Object.keys(misc = require './misc')
-load = misc.load
-Object.keys(misc = load './misc')
+(require './support').infect global
+
+Object.keys (support = load('./support'))
+support.infect global
+Object.keys (interpreter = load('./interpreter'))
+interpreter.infect global
+(trampoline = imperatrix_mundi.trampoline).constructor
 
