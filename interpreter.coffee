@@ -34,7 +34,7 @@ trampoline = imperatrix_mundi.trampoline
 
   The concept of closure is so powerful that it can make all objects.
   Take cons for example. We need cons and snoc. Car and cdr as operations for
-  decomposig a cons node assume copyability, but snoc supports linear
+  decomposing a cons node assume copyability, but snoc supports linear
   structures.
 
   \ cons car: car cdr: cdr -> switch!
@@ -43,6 +43,50 @@ trampoline = imperatrix_mundi.trampoline
 
 ###
 
+make_cons = ->
+  cons = Closure.new()
+  carname = symbol 'car'
+  cdrname = symbol 'cdr'
+  carpar = cons.parameter_by_keyword carname
+  cdrpar = cons.paremeter_by_keyword cdrname
+  a_switch = LogicalSwitch.new()
+  cons.consequent a_switch
+  snoc = a_switch.new_case()
+  snoc.verb symbol 'snoc'
+  carvar = snoc.parameter_by_keyword symbol 'car_into'
+  cdrvar = snoc.parameter_by_keyword symbol 'cdr_into'
+  a_conj = LogicalConjunction.new()
+  snoc.consequent a_conj
+  a_conj.add_conjunct carasg = Assignment.new()
+  a_conj.add_conjunct cdrasg = Assignment.new()
+  carasg.lhs carvar
+  cdrasg.lhs cdrvar
+  carasg.rhs carpar
+  cdrasg.rhs cdrpar
+  cons
+exercise_cons = ->
+  an_appl = Application.new()
+  an_appl.func cons
+  an_appl.argument_by_keyword(symbol 'car') literal 2
+  an_appl.argument_by_keyword(symbol 'cdr') literal 3
+  r = an_appl.result()
+  c = r.call()
+  c.verb symbol 'snoc'
+  c.argument_by_keyword(symbol 'carinto') (car_r = Variable.new()).teller()
+  c.argument_by_keyword(symbol 'cdrinto') (cdr_r = Variable.new()).teller()
+  car_r.evaluate_using_trampoline trampoline
+  cdr_r.evaluate_using_trampoline trampoline
+  trampoline.exhaust()
+  assert car_r.is_reduced_to_literal(), 'car_r reduced'
+  assert cdr_r.is_redduced_to_literal(), 'cdr_r reduced'
+  assert.strictEqual 2, car_r.value(), 'car value'
+  assert.strictEqual 3, cdr_r.value(), 'cdr value'
+
+# have to implement enough stuff to execute the above examples.
+  
+
+add_new_to_class = (a_class) ->
+  a_class.new = (args...) -> new a_class args...
 
 my_exports =
   imperatrix_mundi: imperatrix_mundi
