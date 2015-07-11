@@ -1,4 +1,12 @@
+support = require './support'
+newvar           = support.newvar
+add_new_to_class = support.add_new_to_class
+UnkeyedCollection = support.UnkeyedCollection
+KeyedCollection = support.KeyedCollection
 imperatrix_mundi = (require './global_variable').the
+compiler = require './compiler'
+symbol = imperatrix_mundi.symbol # Placed there by compiler.
+assert symbol?
 
 class Trampoline
   # An instance can remember (in volatile memory) steps that are ready to be
@@ -17,23 +25,18 @@ class Trampoline
     @_.ready_tasks.push a_task
     @_.ready_tasks.length
   exhaust: ->
-    @step until @is_idle
+    @step() until @is_idle()
     true
+add_new_to_class Trampoline
 
 imperatrix_mundi.trampoline? or imperatrix_mundi.trampoline = new Trampoline()
 trampoline = imperatrix_mundi.trampoline
 
 ###
 
-  Maybe there should be two distinct graph structures -- one to transmit demand
-  for values and notification of the results, and a second graph structure to
-  handle the arguments going in the direction of elaboration of the program.
-  Demand can go in either direction relative to the elaboration graph.
-
   One of the most fundamental phenomena to lay out is closure.
   Another very fundamental phenomenon to address is the one-shot logical 
-  variable. How closure and logical variables fit in one another may get
-  quite interesting.
+  variable.
 
   The concept of closure is so powerful that it can make all objects.
   Take cons for example. We need cons and snoc. Car and cdr as operations for
@@ -51,7 +54,7 @@ make_cons = ->
   carname = symbol 'car'
   cdrname = symbol 'cdr'
   carpar = cons.parameter_by_keyword carname
-  cdrpar = cons.paremeter_by_keyword cdrname
+  cdrpar = cons.parameter_by_keyword cdrname
   a_switch = LogicalSwitch.new()
   cons.consequent a_switch
   snoc = a_switch.new_case()
@@ -79,7 +82,7 @@ exercise_cons = ->
   c.argument_by_keyword(symbol 'cdrinto') (cdr_r = Variable.new()).teller()
   car_r.evaluate_using_trampoline trampoline
   cdr_r.evaluate_using_trampoline trampoline
-  trampoline.exhaust()
+  trampoline.exhaust() # could run forever.
   assert car_r.is_reduced_to_literal(), 'car_r reduced'
   assert cdr_r.is_redduced_to_literal(), 'cdr_r reduced'
   assert.strictEqual 2, car_r.value(), 'car value'
@@ -87,7 +90,63 @@ exercise_cons = ->
 
 # have to implement enough stuff to execute the above examples.
 
+class Parameter
 
+add_new_to_class Parameter
 
+class Closure
+  constructor: ->
+    @consequent = newvar()
+    @parameters_by_keyword = newvar KeyedCollection.new()
+    @parameters_by_keyword().factory Parameter
+  parameter_by_keyword: (kw) ->
+    @parameters_by_keyword().at kw
 
+add_new_to_class Closure
+
+class Case
+  constructor: ->
+    @verb = newvar()
+    @consequent = newvar()
+    @parameters_by_keyword = newvar KeyedCollection.new()
+    @parameters_by_keyword().factory Parameter
+  parameter_by_keyword: (kw) ->
+    @parameters_by_keyword().at kw
+
+add_new_to_class Case
+
+class LogicalSwitch
+  constructor: ->
+    @cases = UnkeyedCollection.new()
+    @cases.factory Case
+  new_case: ->
+    @cases.new()
+
+add_new_to_class LogicalSwitch
+
+class Application
+
+add_new_to_class Application
+
+class LogicalConjunction
+  constructor: ->
+    @conjuncts = newvar UnkeyedCollection.new()
+  add_conjunct: (a_new_conjunct) ->
+    @conjuncts().add a_new_conjunct
+add_new_to_class LogicalConjunction
+
+class Assignment
+  constructor: ->
+    @lhs = newvar()
+    @rhs = newvar()
+
+add_new_to_class Assignment
+
+exports.Closure = Closure
+exports.Application = Application
+exports.LogicalSwitch = LogicalSwitch
+exports.Parameter = Parameter
+exports.Assignment = Assignment
+exports.make_cons = make_cons
+exports.exercise_cons = exercise_cons
 

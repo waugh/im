@@ -13,6 +13,34 @@ newvar = (init) ->
 add_new_to_class = (a_class) ->
   a_class.new = (args...) -> new a_class args...
 
+# Wrappers around basic Javascript types.
+
+class UnkeyedCollection
+  constructor: ->
+    @underlying = newvar []
+    @factory = newvar()
+  add: (new_elt) ->
+    @underlying().push new_elt
+    true
+  new: ->
+    n = @factory().new()
+    @add n
+    n
+  map: (f) ->
+    f elt for elt in @underlying()
+add_new_to_class UnkeyedCollection
+
+class KeyedCollection
+  constructor: ->
+    @underlying = newvar {}
+    @factory = newvar()
+  at: (key) ->
+    hit = @underlying()[key]
+    unless hit?
+      hit = @factory().new()
+      @underlying()[key] = hit
+    hit
+add_new_to_class KeyedCollection
 
 # Support for reloading module files after they have been changed.
 
@@ -26,6 +54,8 @@ load = (short_name) ->
 exports.load             = load
 exports.add_new_to_class = add_new_to_class
 exports.newvar           = newvar
+exports.UnkeyedCollection = UnkeyedCollection
+exports.KeyedCollection = KeyedCollection
 
 
 ###

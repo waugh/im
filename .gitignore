@@ -34,5 +34,5 @@ node_modules
 
 npm-debug.log
 # js derived from coffee.
-source.js
-
+interpreter.js
+compiler.js
