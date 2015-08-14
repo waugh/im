@@ -33,7 +33,9 @@ compiler.infect imperatrix_mundi # trashes symbol table.
 symbol = imperatrix_mundi.symbol
 
 Object.keys interpreter = load './interpreter'
-interpreter.make_cons()
+literal = interpreter.literal
+cons = interpreter.make_cons()
+interpreter.exercise_cons()
 
 Object.keys imperatrix_mundi
 

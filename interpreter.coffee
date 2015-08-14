@@ -71,8 +71,8 @@ make_cons = ->
   cdrasg.rhs cdrpar
   cons
 exercise_cons = ->
-  an_appl = Application.new()
-  an_appl.func cons
+  an_appl = ProcedureApplication.new()
+  an_appl.procedure cons
   an_appl.argument_by_keyword(symbol 'car') literal 2
   an_appl.argument_by_keyword(symbol 'cdr') literal 3
   r = an_appl.result()
@@ -89,6 +89,12 @@ exercise_cons = ->
   assert.strictEqual 3, cdr_r.value(), 'cdr value'
 
 # have to implement enough stuff to execute the above examples.
+
+class Literal
+  constructor: (value) ->
+    @value = newvar value
+  is_reduced_to_literal: -> true
+literal = Literal
 
 class Parameter
 
@@ -124,9 +130,9 @@ class LogicalSwitch
 
 add_new_to_class LogicalSwitch
 
-class Application
+class ProcedureApplication
 
-add_new_to_class Application
+add_new_to_class ProcedureApplication
 
 class LogicalConjunction
   constructor: ->
@@ -143,10 +149,11 @@ class Assignment
 add_new_to_class Assignment
 
 exports.Closure = Closure
-exports.Application = Application
+exports.ProcedureApplication = ProcedureApplication
 exports.LogicalSwitch = LogicalSwitch
 exports.Parameter = Parameter
 exports.Assignment = Assignment
 exports.make_cons = make_cons
 exports.exercise_cons = exercise_cons
+exports.literal = literal
 
