@@ -37,7 +37,7 @@ class KeyedCollection
   at: (key) ->
     hit = @underlying()[key]
     unless hit?
-      hit = @factory().new()
+      hit = @factory().new()    # Am I sure it should work this way??
       @underlying()[key] = hit
     hit
 add_new_to_class KeyedCollection
@@ -51,19 +51,9 @@ load = (short_name) ->
 
 # Wrap it all up.
 
-exports.load             = load
-exports.add_new_to_class = add_new_to_class
-exports.newvar           = newvar
+exports.load              = load
+exports.add_new_to_class  = add_new_to_class
+exports.newvar            = newvar
 exports.UnkeyedCollection = UnkeyedCollection
-exports.KeyedCollection = KeyedCollection
+exports.KeyedCollection   = KeyedCollection
 
-
-###
-Code that is not in use and may be on its way to being trashed.
-
-infect_from = (tgt, src) ->
-  keys = Object.keys src
-  for k in keys
-    tgt[k] = src[k]
-  keys
-###
