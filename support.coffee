@@ -5,8 +5,8 @@
 # Make a new variable and return it (not an IM variable).
 newvar = (init) ->
   it = init
-  (newval) -> 
-    if newval? then it = newval
+  (args...) -> 
+    if args.length > 0 then it = args[0]
     it
 
 # Add a .new method to a Coffee class or to any constructor function.
