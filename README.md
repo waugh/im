@@ -1,22 +1,12 @@
-# im
+# im -- Programming Language "Imperatrix Mundi"
 
-There might not be anything here yet, but my intent with this repo
-is to implement in Javascript (ECMAscript, JS) a virtual machine.
+I am trying to invent a programming language with these broad characteristics:
 
-I am using node.js (nodejs) as the platform for running JS as I test the code.
-So the arrangement of code into files here, and the way code files refer to
-other code files, is in the style that nodejs understands.
+- suitability for transparent persistence;
+- concurrent-constraint logic;
+- lazy evaluation;
+- referential transparency;
+- suitability for programming browsers as well as web servers.
 
-## What Kind of Language Am I Designing the VM to Execute?
+The implementation for browsers might not handle persistency.
 
-It is a concurrent-constraint logic language without backtracking.
-
-There is no reassignment of different values to a variable over time.
-
-Procedure definitions are fundamental from the VM's viewpoint.
-Arguments to procedures can carry data in or out.
-
-## Why is the repo named "im"?
-
-In designing the VM, I have in mind to compile to the VM's language from a
-higher-level language, to be called Imperatrix Mundi.

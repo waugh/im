@@ -1,3 +1,6 @@
+Test documents written in Markdown:
+https://daringfireball.net/projects/markdown/dingus
+
 # Introduction of modules to the project.
 
 http://www.asyncdev.net/2012/08/locking-node-js-module-versions-with-shrinkwrap/
@@ -20,30 +23,29 @@ rm interpreter.js
 nvm use
 node_modules/.bin/coffee
 
-Object.keys support = require './support'
-load = support.load
-
-Object.keys support = load './support'
-load = support.load
-
 keys_of = Object.keys
-keys_of test = load './test'
-test.ex()
+keys_of support = require './support'
+load = support.load
+
+keys_of support = load './support'
+load = support.load
+
+load './test'
 
 
-Object.keys global_variable = load './global_variable'
+keys_of global_variable = load './global_variable'
 imperatrix_mundi is global_variable.the
 
-Object.keys compiler = load './compiler'
+keys_of compiler = load './compiler'
 compiler.infect imperatrix_mundi # trashes symbol table.
 symbol = imperatrix_mundi.symbol
 
-Object.keys interpreter = load './interpreter'
+keys_of interpreter = load './interpreter'
 literal = interpreter.literal
 cons = interpreter.make_cons()
 interpreter.exercise_cons()
 
-Object.keys imperatrix_mundi
+keys_of imperatrix_mundi
 
 
 

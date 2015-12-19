@@ -1,0 +1,21 @@
+Every object has a copyable, testable surface manifestation?
+An object's structure can be tested for?
+In this case, teller can be a distinct structure.
+An argument might not at a time know its structure, but it's guaranteed to
+only ever have at most one, and the structure is copyable.
+Noncopyable flows are hidden in something?
+
+Define most primitives as expressions rather than commands?
+
+First argument of a command is always a teller for a result? Not if there is an
+explicit command to destroy a copy of a copyable object. But make it the usual
+convention, and say that command forms when used in an expression context
+implicitly connect to the outer context on their first argument?
+
+Command in lvalue context?
+
+Include assignment or unification or something like that as a command form.
+
+How to handle name scope and closures?
+
+"In" and "out" as statically indicated modes in procedure calls?
