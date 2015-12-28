@@ -1,18 +1,13 @@
-compiler = require './compiler'
+support           = require './support'
+newvar            = support.newvar
 
-# Procedure definition and procedure application are fundamental to the
-# interpreter.
-# Have to create a simple example so as to debug those features into existence.
-# The first example procedure must have conditional code within it, in order to
-# mean much with respect to debugging lazy evaluation into existence. What
-# overhead costs will the design exact, per application, for portions of code
-# that don't have to run for that application?
+ex_parent =
+  a: -> "a"
+ex_constructor = ->
+  this.state = newvar(3)
+  this
+ex_constructor.prototype = ex_parent
 
-example = [ 'procedure',
-  params: ['a', 'b', 'r']
-  body: [
-    ['if', condition: '' ... ]
-  ]
-]
-
-exports.example = example
+exports.ex_parent = ex_parent
+exports.ex_constructor = ex_constructor
+exports.ex_instance = new ex_constructor

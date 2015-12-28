@@ -19,3 +19,17 @@ Include assignment or unification or something like that as a command form.
 How to handle name scope and closures?
 
 "In" and "out" as statically indicated modes in procedure calls?
+
+Avoid a static understanding of directionality for the interpreter?
+Just constrain fan-out and fan-in?
+For the interpreter's compiler, use arrows to denote fan-like connections.
+Only at runtime care in which direction the information is really flowing.
+No need to mark procedure parameters/arguments explicitly as "in" or "out".
+
+For a switch command, can detect and disallow overlapping cases?
+Let a message pattern include required, optional, and forbidden parameters,
+and say whether others are allowed (write-ins)? Can that be made to work,
+even if in "messages"/structures, there is no labeling as to whether a
+parameter is intended to match which pattern constraint?
+
+
