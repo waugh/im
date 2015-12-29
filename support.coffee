@@ -9,6 +9,14 @@ newvar = (init) ->
     if args.length > 0 then it = args[0]
     it
 
+# What about lazy initialization / memoization ?
+lazy_init = (init) ->
+  beh = ->
+    value = init()
+    beh = -> value
+    value
+  -> beh()
+
 # Add a .new method to a Coffee class or to any constructor function.
 add_new_to_class = (a_class) ->
   a_class.new = (args...) -> new a_class args...
@@ -49,11 +57,11 @@ load = (short_name) ->
   global.require short_name
 
 
-# Wrap it all up.
-
-exports.load              = load
-exports.add_new_to_class  = add_new_to_class
-exports.newvar            = newvar
-exports.UnkeyedCollection = UnkeyedCollection
-exports.KeyedCollection   = KeyedCollection
+module.exports =
+  load: load
+  add_new_to_class: add_new_to_class
+  newvar: newvar
+  UnkeyedCollection: UnkeyedCollection
+  KeyedCollection:  KeyedCollection
+  lazy_init: lazy_init
 

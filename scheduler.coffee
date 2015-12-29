@@ -36,7 +36,8 @@ class FiredEventState
     trampoline.defer an_action
     true
   fire: ->
-    true
+    true # do no harm.
+  has_tripped: -> true
 FiredEventState.the = new FiredEventState()
 
 class UnfiredEventState
@@ -52,12 +53,15 @@ class UnfiredEventState
       trampoline.defer action
     @for_event.state FiredEventState.the
     true
+  has_tripped: -> false
 UnfiredEventState.new = (spec) -> new UnfiredEventState spec
 
+# Event could be rewritten as a Coffeescript class, straightforwardly.
 Event = ( ->
   parent =
     register: (an_action) -> this.state().register an_action,
-    fire: -> this.state().fire()
+    fire:                 -> this.state().fire(),
+    has_tripped:          -> this.state().has_tripped
   constructor = ->
     spec = {for_event: this}
     init_state = UnfiredEventState.new spec

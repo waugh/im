@@ -29,6 +29,8 @@ load = support.load
 
 keys_of support = load './support'
 load = support.load
+test = load './test'
+
 
 keys_of scheduler = load './scheduler'
 trampoline = imperatrix_mundi.trampoline # a global set by scheduler.
@@ -40,8 +42,6 @@ ex.fire()
 trampoline.exhaust()
 ex.register -> console.log "Already fired."
 
-load './test'
-
 keys_of global_variable = load './global_variable'
 imperatrix_mundi is global_variable.the
 
@@ -50,9 +50,8 @@ compiler.infect imperatrix_mundi # trashes symbol table.
 symbol = imperatrix_mundi.symbol
 
 keys_of interpreter = load './interpreter'
-literal = interpreter.literal
-cons = interpreter.make_cons()
-interpreter.exercise_cons()
+LogicalVariable = interpreter.LogicalVariable
+ex = LogicalVariable.new()
 
 keys_of imperatrix_mundi
 
