@@ -56,19 +56,29 @@ class UnfiredEventState
   has_tripped: -> false
 UnfiredEventState.new = (spec) -> new UnfiredEventState spec
 
-# Event could be rewritten as a Coffeescript class, straightforwardly.
+# Event could proabably be rewritten as a Coffeescript class, straightforwardly.
+# Coding it this way is an accident of history.
 Event = ( ->
-  parent =
-    register: (an_action) -> this.state().register an_action,
-    fire:                 -> this.state().fire(),
-    has_tripped:          -> this.state().has_tripped
   constructor = ->
     spec = {for_event: this}
     init_state = UnfiredEventState.new spec
     this.state = newvar init_state
     this
-  constructor.prototype = parent
+  constructor.prototype =
+    register: (an_action) -> this.state().register an_action,
+    fire:                 -> this.state().fire(),
+    has_tripped:          -> this.state().has_tripped()
   constructor.new = -> new constructor
+  constructor.conjunction_over = (events) ->
+    r = constructor.new()
+    count_remaining = events.length
+    probe = -> r.fire() if count_remaining <= 0
+    for ev in events
+      ev.register ->
+        count_remaining -= 1
+        probe()
+    probe()
+    r
   constructor
 )()
 
