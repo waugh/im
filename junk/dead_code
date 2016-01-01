@@ -1,3 +1,33 @@
+
+# Wrappers around basic Javascript types.
+
+class UnkeyedCollection
+  constructor: ->
+    @underlying = newvar []
+    @factory = newvar()
+  add: (new_elt) ->
+    @underlying().push new_elt
+    true
+  new: ->
+    n = @factory().new()
+    @add n
+    n
+  map: (f) ->
+    f elt for elt in @underlying()
+add_new_to_class UnkeyedCollection
+
+class KeyedCollection
+  constructor: ->
+    @underlying = newvar {}
+    @factory = newvar()
+  at: (key) ->
+    hit = @underlying()[key]
+    unless hit?
+      hit = @factory().new()    # Am I sure it should work this way??
+      @underlying()[key] = hit
+    hit
+add_new_to_class KeyedCollection
+
 ###
 
   One of the most fundamental phenomena to lay out is closure.

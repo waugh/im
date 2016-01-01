@@ -1,10 +1,10 @@
 # This file affects a global variable.
 
+# Basic scheduling of tasks.
+
 support           = require './support'
 newvar            = support.newvar
 add_new_to_class  = support.add_new_to_class
-UnkeyedCollection = support.UnkeyedCollection
-KeyedCollection   = support.KeyedCollection
 imperatrix_mundi  = (require './global_variable').the
 
 class Trampoline

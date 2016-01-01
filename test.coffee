@@ -1,7 +1,6 @@
-support           = require './support'
-scheduler         = require './scheduler'
-Event             = scheduler.Event
-trampoline = imperatrix_mundi.trampoline # a global set by scheduler.
+scheduling = require './scheduling'
+Event      = scheduling.Event
+trampoline = imperatrix_mundi.trampoline # a global set by schedule.
 
 failure_count = 0
 assert = (passed) ->
@@ -33,5 +32,9 @@ console.log "But when the inputs have been fired, the conjunction should fire."
 a.fire()
 trampoline.exhaust()
 assert fired
+
+console.log ""
+console.log "Testing lazy evaluation:"
+console.log ""
 
 module.exports = failure_count
